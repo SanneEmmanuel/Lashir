@@ -23,18 +23,15 @@ WORKDIR /app
 # Copy only pyproject.toml first
 COPY pyproject.toml ./
 
-# Add this critical fix:
-RUN poetry config virtualenvs.create false && \
-    poetry config experimental.new-installer false  # 👈 Disable new resolver
+# Configure Poetry to use system Python
+RUN poetry config virtualenvs.create false
 
-# Generate lock file
-RUN poetry lock --no-update  # Should now work
-
-# Install dependencies
+# Install dependencies directly (no need for separate lock step)
 RUN poetry install --only main --no-interaction --no-ansi
 
-# Copy the rest
+# Copy the rest of the application
 COPY . .
 
 EXPOSE 10000
+
 CMD ["gunicorn", "-b", "0.0.0.0:10000", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "lashir.app:app"]
