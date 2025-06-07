@@ -1,23 +1,20 @@
 services:
   - type: web
-    name: lashir-api
+    name: lashir-service
+    env: python
+    region: oregon
     plan: free
-    dockerfilePath: ./go-api/Dockerfile
-    port: 8080  # Explicit port declaration
+    branch: main
+    buildCommand: |
+      sudo apt-get update
+      sudo apt-get install -y libsndfile1
+      pip install -r sanne/requirements.txt
+    startCommand: gunicorn sanne.main:app
     envVars:
-      - key: PYTHON_AUDIO_URL
-        value: https://lashir-audio.onrender.com
-      - key: PYTHON_MUSIC21_URL
-        value: https://lashir-music21.onrender.com
-
-  - type: web
-    name: lashir-audio
-    plan: free
-    dockerfilePath: ./python-audio/Dockerfile
-    port: 5000  # Must match your Python service port
-
-  - type: web
-    name: lashir-music21
-    plan: free
-    dockerfilePath: ./python-music21/Dockerfile
-    port: 5001  # Must match your Music21 service port
+      - key: FLAT_IO_API_KEY
+        value: your_flat_io_api_key_here  # Replace this or set it securely in the Render dashboard
+      - key: PORT
+        value: 10000
+    buildFilter:
+      paths:
+        - sanne/**
