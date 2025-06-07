@@ -1,9 +1,10 @@
-flask>=2.0.0,<3.0.0
-librosa>=0.8.0,<0.10.0
-music21>=7.0.0,<9.0.0
-python-docx>=0.8.0,<1.0.0
-matplotlib>=3.0.0,<4.0.0
-requests>=2.25.0,<3.0.0
-numpy>=1.20.0,<2.0.0
-soundfile>=0.10.0,<0.12.0  # Required by librosa for audio I/O
-scipy>=1.6.0,<2.0.0  # Required by librosa
+flask==2.3.2
+librosa==0.10.0
+music21==9.1.0
+python-docx==0.8.11
+matplotlib==3.7.1
+requests==2.31.0
+numpy==1.24.3
+gunicorn==20.1.0
+soundfile==0.12.1
+scipy==1.10.1
