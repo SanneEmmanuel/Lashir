@@ -1,37 +1,27 @@
 FROM python:3.11-slim
 
-# Install system dependencies
+# Install system dependencies (including audio/FFmpeg)
 RUN apt-get update && \
     apt-get install -y \
     libsndfile1 \
-    ffmpeg && \
-    rm -rf /var/lib/apt/lists/*
+    ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
 
-# Set up poetry
-ENV PYTHONFAULTHANDLER=1 \
-    PYTHONUNBUFFERED=1 \
-    PYTHONHASHSEED=random \
-    PIP_NO_CACHE_DIR=off \
-    PIP_DISABLE_PIP_VERSION_CHECK=on \
-    PIP_DEFAULT_TIMEOUT=100 \
-    POETRY_VERSION=1.7.1
-
-RUN pip install poetry==$POETRY_VERSION
+# Configure Poetry
+ENV POETRY_VERSION=1.7.1
+RUN pip install "poetry==$POETRY_VERSION"
+RUN poetry config virtualenvs.create false
 
 WORKDIR /app
 
-# Copy only pyproject.toml first
-COPY pyproject.toml ./
+# Copy dependency files first (optimizes caching)
+COPY pyproject.toml poetry.lock* ./
 
-# Configure Poetry to use system Python
-RUN poetry config virtualenvs.create false
-
-# Install dependencies directly (no need for separate lock step)
+# Install main dependencies (excluding dev)
 RUN poetry install --only main --no-interaction --no-ansi
 
-# Copy the rest of the application
+# Copy application
 COPY . .
 
 EXPOSE 10000
-
 CMD ["gunicorn", "-b", "0.0.0.0:10000", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "lashir.app:app"]
