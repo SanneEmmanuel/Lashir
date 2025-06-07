@@ -1,20 +1,13 @@
-package main  
+// go-api/solfa.go
+package main
 
-// SolfaNote represents a mystical note mapping  
-type SolfaNote struct {  
-    Frequency float64 `json:"frequency"`  
-    Letter    string  `json:"letter"`  // "C", "D", etc.  
-    Solfa     string  `json:"solfa"`   // "Do", "Re", etc.  
-    Chroma    int     `json:"chroma"`  // 0-11 (pitch class)  
-}  
-
-// Map to Solfa (movable-Do system)  
-func mapToSolfa(pitch string) SolfaNote {  
-    // Esoteric key detection (harmonic resonance algorithm)  
-    key := detectKey(pitch)  
-    return SolfaNote{  
-        Letter: pitch,  
-        Solfa:  solfaMap[key][pitch], // Predefined mapping  
-        Chroma: chroma(pitch),  
-    }  
-}  
+func convertToSolfa(note string) string {
+    solfa := map[string]string{
+        "C": "Do", "D": "Re", "E": "Mi",
+        "F": "Fa", "G": "Sol", "A": "La", "B": "Ti",
+    }
+    if len(note) > 0 {
+        return solfa[note[:1]] // Extract base note (e.g., "C" from "C4")
+    }
+    return ""
+}
