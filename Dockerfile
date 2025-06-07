@@ -23,16 +23,18 @@ WORKDIR /app
 # Copy only pyproject.toml first
 COPY pyproject.toml ./
 
-# Generate poetry.lock (temporary workaround)
-RUN poetry lock --no-update
-
-# Now install dependencies
+# Add this critical fix:
 RUN poetry config virtualenvs.create false && \
-    poetry install --only main --no-interaction --no-ansi
+    poetry config experimental.new-installer false  # 👈 Disable new resolver
 
-# Copy the rest of the application
+# Generate lock file
+RUN poetry lock --no-update  # Should now work
+
+# Install dependencies
+RUN poetry install --only main --no-interaction --no-ansi
+
+# Copy the rest
 COPY . .
 
 EXPOSE 10000
-
 CMD ["gunicorn", "-b", "0.0.0.0:10000", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "lashir.app:app"]
