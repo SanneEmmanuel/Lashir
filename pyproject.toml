@@ -2,57 +2,65 @@
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.poetry]
+[project]
 name = "lashir"
 version = "1.0.0"
 description = "Your Ultimate Sound to Solfa Converter"
-authors = ["sanneemmanuel <sanneemmanuel@example.com>"]
-license = "MIT"
 readme = "README.md"
-homepage = "https://github.com/sanneemmanuel/lashir"
-repository = "https://github.com/sanneemmanuel/lashir"
+license = { text = "MIT" }
+authors = [
+  { name = "sanneemmanuel", email = "sanneemmanuel@example.com" }
+]
+requires-python = ">=3.8"
 keywords = ["music", "solfa", "audio-processing", "music-notation"]
 
-[tool.poetry.dependencies]
-python = "^3.8"
-flask = "^3.0.0"
-librosa = "^0.10.1"
-music21 = "^9.1.0"
-python-docx = "^1.1.0"
-matplotlib = {version = "^3.8.2", extras = ["ttf"]}  # For music symbols
-requests = "^2.31.0"
-numpy = "^1.26.3"
-gunicorn = "^21.2.0"
-soundfile = "^0.12.1"
-scipy = "^1.11.4"
-python-dotenv = "^1.0.0"
+dependencies = [
+  "flask>=3.0.0",
+  "librosa>=0.10.1",
+  "music21>=9.1.0",
+  "python-docx>=1.1.0",
+  "matplotlib[ttf]>=3.8.2",
+  "requests>=2.31.0",
+  "numpy>=1.26.3",
+  "gunicorn>=21.2.0",
+  "soundfile>=0.12.1",
+  "scipy>=1.11.4",
+  "python-dotenv>=1.0.0"
+]
 
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.0.0"
-pytest-cov = "^4.1.0"
-black = "^24.0.0"
-flake8 = "^6.1.0"
-mypy = "^1.8.0"
-types-requests = "^2.31.0.1"
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0.0",
+  "pytest-cov>=4.1.0",
+  "black>=24.0.0",
+  "flake8>=6.1.0",
+  "mypy>=1.8.0",
+  "types-requests>=2.31.0.1"
+]
 
-[tool.poetry.scripts]
+[project.scripts]
 lashir = "lashir.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/sanneemmanuel/lashir"
+Repository = "https://github.com/sanneemmanuel/lashir"
+"Bug Tracker" = "https://github.com/sanneemmanuel/lashir/issues"
 
 [tool.black]
 line-length = 88
-target-version = ['py38']
+target-version = ["py38"]
 include = '\.pyi?$'
 exclude = '''
 /(
     \.git
-    | \.hg
-    | \.mypy_cache
-    | \.tox
-    | \.venv
-    | _build
-    | buck-out
-    | build
-    | dist
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
 )/
 '''
 
@@ -60,6 +68,3 @@ exclude = '''
 testpaths = ["tests"]
 python_files = "test_*.py"
 addopts = "--cov=lashir --cov-report=term-missing"
-
-[project.urls]
-"Bug Tracker" = "https://github.com/sanneemmanuel/lashir/issues"
