@@ -1,0 +1,17 @@
+services:  
+  lashir-api:  
+    image: golang:1.21  
+    build: ./go-api  
+    ports: ["8080:8080"]  
+    environment:  
+      - PYTHON_AUDIO_URL=http://python-audio:5000  
+      - PYTHON_MUSIC21_URL=http://python-music21:5001  
+
+  python-audio:  
+    build: ./python-audio  
+    volumes:  
+      - ./audio-cache:/tmp  
+
+  python-music21:  
+    build: ./python-music21  
+    command: ["gunicorn", "-b :5001", "app:app"]  
