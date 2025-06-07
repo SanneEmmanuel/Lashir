@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: lashir-api
+    name: lashir-main
     env: docker
     region: oregon
     plan: free
