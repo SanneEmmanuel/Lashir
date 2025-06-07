@@ -1,20 +1,14 @@
 services:
   - type: web
     name: lashir-api
-    env: python
+    env: docker
+    dockerfilePath: ./Dockerfile
     region: oregon
     plan: free
     branch: main
-    buildCommand: |
-      sudo apt-get update
-      sudo apt-get install -y libsndfile1
-      pip install -r requirements.txt
     startCommand: gunicorn sanne.main:app
     envVars:
       - key: FLAT_IO_API_KEY
-        value: your_flat_io_api_key_here  # Replace this or set it securely in the Render dashboard
+        value: your_flat_io_api_key_here
       - key: PORT
         value: 10000
-    buildFilter:
-      paths:
-        - sanne/**
