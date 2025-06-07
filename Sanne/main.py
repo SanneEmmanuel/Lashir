@@ -22,6 +22,8 @@ app = Flask(__name__)
 
 # Enable CORS for all routes and all origins, Edit Later
 CORS(app)
+def root_redirect():
+    return redirect("https://github.com/sanneemmanuel/libra", code=302)
 
 app.config['UPLOAD_FOLDER'] = 'uploads'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
