@@ -5,7 +5,7 @@ services:
     region: oregon
     plan: free
     branch: main
-    dockerfilePath: ./sanne/Dockerfile
+    dockerfilePath: ./Dockerfile
     envVars:
       - key: FLAT_IO_API_KEY
         value: your_flat_io_api_key_here
