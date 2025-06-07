@@ -15,8 +15,14 @@ import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 from matplotlib import patches
 import matplotlib.lines as mlines
+from flask_cors import CORS
 
+# Sanne Flask Initialization
 app = Flask(__name__)
+
+# Enable CORS for all routes and all origins, Edit Later
+CORS(app)
+
 app.config['UPLOAD_FOLDER'] = 'uploads'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
