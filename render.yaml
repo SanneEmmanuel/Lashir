@@ -1,0 +1,26 @@
+services:
+  - name: lashir-api
+    type: web
+    env: docker
+    plan: free  # Upgrade for production
+    dockerfilePath: ./go-api/Dockerfile
+    port: 8080
+    envVars:
+      - key: PYTHON_AUDIO_URL
+        value: https://lashir-python-audio.onrender.com
+      - key: PYTHON_MUSIC21_URL
+        value: https://lashir-python-music21.onrender.com
+
+  - name: lashir-python-audio
+    type: web
+    env: docker
+    plan: free
+    dockerfilePath: ./python-audio/Dockerfile
+    port: 5000
+
+  - name: lashir-python-music21
+    type: web
+    env: docker
+    plan: free
+    dockerfilePath: ./python-music21/Dockerfile
+    port: 5001
