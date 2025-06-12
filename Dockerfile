@@ -10,7 +10,7 @@ RUN apt-get update && \
 WORKDIR /app
 
 # Copy only requirement files first for caching
-COPY pyproject.toml poetry.lock* ./
+COPY pyproject.toml ./
 
 # Install Poetry and project dependencies (using pyproject.toml's built-in)
 RUN pip install --no-cache-dir poetry && \
